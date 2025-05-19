@@ -7,7 +7,7 @@ export default function App() {
   const [output, setOutput] = useState("");
 
   const runCode = async () => {
-    const res = await fetch("http://localhost:5000/run", {
+    const res = await fetch("https://code-editor-app-h0gi.onrender.com/run", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ code, input }),
