@@ -1,0 +1,22 @@
+.container {
+  width: 80%;
+  margin: auto;
+  font-family: monospace;
+}
+textarea {
+  width: 100%;
+  height: 150px;
+  margin-bottom: 10px;
+}
+pre {
+  background: #111;
+  color: #0f0;
+  padding: 10px;
+}
+button {
+  background-color: #4caf50;
+  color: white;
+  padding: 10px;
+  border: none;
+  cursor: pointer;
+}
