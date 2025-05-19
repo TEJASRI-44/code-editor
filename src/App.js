@@ -1,31 +1,63 @@
 import React, { useState } from "react";
-import "./styles.css";
+import "./App.css";
 
-export default function App() {
-  const [code, setCode] = useState("# Enter Python code here");
+function App() {
+  const [code, setCode] = useState("");
   const [input, setInput] = useState("");
   const [output, setOutput] = useState("");
+  const [error, setError] = useState("");
 
   const runCode = async () => {
-    const res = await fetch("https://code-editor-app-h0gi.onrender.com/run", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ code, input }),
-    });
+    setOutput("");
+    setError("");
 
-    const data = await res.json();
-    setOutput(data.output || data.error);
+    try {
+      const response = await fetch("https://code-editor-app-2.onrender.com/run", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ code, input }),
+      });
+
+      const data = await response.json();
+      setOutput(data.output);
+      setError(data.error);
+    } catch (err) {
+      setError("Something went wrong. Try again later.");
+    }
   };
 
   return (
-    <div className="container">
-      <h1>CodePlayground - Python</h1>
-      <textarea value={code} onChange={(e) => setCode(e.target.value)} />
-      <h3>User Input:</h3>
-      <textarea value={input} onChange={(e) => setInput(e.target.value)} />
-      <button onClick={runCode}>Run</button>
-      <h3>Output:</h3>
+    <div className="App">
+      <h1>Python Code Runner</h1>
+      <textarea
+        placeholder="Enter Python code here"
+        value={code}
+        onChange={(e) => setCode(e.target.value)}
+        rows="10"
+        cols="80"
+      />
+      <br />
+      <textarea
+        placeholder="Optional Input"
+        value={input}
+        onChange={(e) => setInput(e.target.value)}
+        rows="3"
+        cols="80"
+      />
+      <br />
+      <button onClick={runCode}>Run Code</button>
+      <h2>Output:</h2>
       <pre>{output}</pre>
+      {error && (
+        <>
+          <h2 style={{ color: "red" }}>Error:</h2>
+          <pre style={{ color: "red" }}>{error}</pre>
+        </>
+      )}
     </div>
   );
 }
+
+export default App;
